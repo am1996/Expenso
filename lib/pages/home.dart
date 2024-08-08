@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 // Suggested code may be subject to a license. Learn more: ~LicenseLog:354612783.
 class HomePage extends StatelessWidget {
@@ -12,20 +11,28 @@ class HomePage extends StatelessWidget {
       drawer: Drawer(
         backgroundColor: Colors.white,
         child: ListView(
-          children: const [
-            DrawerHeader(
+          children: [
+            const DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.white,
+                image: DecorationImage(
+                  image: AssetImage("images/pattern.jpg"),
+                ),
               ),
               child: Text('Menu'),
             ),
             ListTile(
-              leading: Icon(Icons.home),
-              title: Text('Home'),
+              leading: const Icon(Icons.home),
+              title: const Text('Home'),
+              onTap: () {
+                debugPrint("hello world");
+              },
             ),
             ListTile(
-              leading: Icon(Icons.settings),
-              title: Text('Settings'),
+              leading: const Icon(Icons.settings),
+              title: const Text('Settings'),
+              onTap: () {
+                debugPrint("tabbed");
+              },
             )
           ],
         ),
