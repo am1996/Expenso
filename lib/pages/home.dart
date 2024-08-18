@@ -12,24 +12,43 @@ class HomePage extends StatelessWidget {
         backgroundColor: Colors.white,
         child: ListView(
           children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("images/pattern.jpg"),
-                ),
+            const ListTile(
+              title: Text("Expense"),
+              trailing: Text("1.0.0"),
+              shape: Border(bottom: BorderSide(color: Colors.black12)),
+            ),
+            const ListTile(
+              title: Text(
+                "Management",
+                textAlign: TextAlign.left,
+                style: TextStyle(fontSize: 12),
               ),
-              child: Text('Menu'),
+              textColor: Colors.black54,
             ),
             ListTile(
-              leading: const Icon(Icons.home),
-              title: const Text('Home'),
+              leading: const Icon(Icons.settings),
+              title: const Text('Preferences'),
               onTap: () {
                 debugPrint("hello world");
               },
             ),
             ListTile(
-              leading: const Icon(Icons.settings),
-              title: const Text('Settings'),
+              leading: const Icon(Icons.delete),
+              title: const Text('Delete & Restore'),
+              onTap: () {
+                debugPrint("hello world");
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.help),
+              title: const Text('Help'),
+              onTap: () {
+                debugPrint("tabbed");
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.message),
+              title: const Text('Feedback'),
               onTap: () {
                 debugPrint("tabbed");
               },
