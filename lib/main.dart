@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:myapp/controllers/expenses_controller.dart';
+import 'package:myapp/pages/add.dart';
+import 'package:myapp/pages/delete.dart';
 import 'package:myapp/pages/home.dart';
+import 'package:myapp/pages/preferences.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,14 +16,33 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Expenso',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
         useMaterial3: true,
       ),
-      home: const HomePage(title: 'Home'),
+      initialRoute: "/home",
+      initialBinding:
+          BindingsBuilder(() => Get.lazyPut(() => ExpensesController())),
+      getPages: <GetPage>[
+        GetPage(
+          name: "/home",
+          page: () => const HomePage(),
+          children: [
+            GetPage(
+              name: "/preferences",
+              page: () => const Preferences(),
+            ),
+            GetPage(
+              name: "/deleterestore",
+              page: () => const Delete(),
+            ),
+            GetPage(name: "/add", page: () => const Add())
+          ],
+        ),
+      ],
     );
   }
 }
