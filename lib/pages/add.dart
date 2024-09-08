@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class Add extends StatelessWidget {
   const Add({super.key});
@@ -6,16 +7,77 @@ class Add extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.keyboard_arrow_left_sharp),
+          onPressed: () => Get.toNamed("/home"),
+        ),
+      ),
       body: Container(
         padding: const EdgeInsets.all(50.0),
-        child: const Column(
-          children: [
-            TextField(
-              decoration: InputDecoration(labelText: "Name"),
-            ),
-            TextField(),
-            TextField(),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: const Text("Select Date"),
+                              content: SingleChildScrollView(
+                                child: CalendarDatePicker(
+                                    initialDate: DateTime(2024),
+                                    firstDate: DateTime(1900),
+                                    lastDate: DateTime(3000),
+                                    onDateChanged: (DateTime d) {}),
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text('Cancel'),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    // Handle date selection
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text('OK'),
+                                ),
+                              ],
+                            );
+                          });
+                    },
+                    child: const Row(
+                      children: [
+                        Icon(Icons.calendar_today),
+                        Text("Choose Date")
+                      ],
+                    ),
+                  )
+                ],
+              ),
+              const TextField(
+                decoration: InputDecoration(labelText: "Name"),
+              ),
+              const TextField(),
+              const TextField(),
+              const SizedBox(width: 10, height: 10),
+              TextButton(
+                onPressed: () {},
+                style: TextButton.styleFrom(
+                  minimumSize: const Size(double.infinity, 50),
+                  backgroundColor: Colors.orange,
+                  foregroundColor: Colors.white,
+                ),
+                child: const Text("Submit"),
+              )
+            ],
+          ),
         ),
       ),
     );

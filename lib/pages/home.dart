@@ -13,7 +13,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       drawer: DrawerWidget(key: key),
       floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.battery_2_bar_outlined),
+        child: const Icon(Icons.add),
         onPressed: () => Get.toNamed("/home/add"),
       ),
       appBar: AppBar(
