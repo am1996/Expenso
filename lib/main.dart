@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
               name: "/deleterestore",
               page: () => const Delete(),
             ),
-            GetPage(name: "/add", page: () => const Add())
+            GetPage(name: "/add", page: () => Add())
           ],
         ),
       ],
