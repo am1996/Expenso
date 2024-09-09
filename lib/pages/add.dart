@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class Add extends StatelessWidget {
   const Add({super.key});
@@ -33,8 +34,9 @@ class Add extends StatelessWidget {
                                     initialDate: DateTime(2024),
                                     firstDate: DateTime(1900),
                                     lastDate: DateTime(3000),
-                                    onDateChanged: (DateTime d) {
-                                      date.value = d.toString();
+                                    onDateChanged: (DateTime ddd) {
+                                      date.value =
+                                          DateFormat("yyyy-MM-dd").format(ddd);
                                       Get.back();
                                     }),
                                 TextButton(
