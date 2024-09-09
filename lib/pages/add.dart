@@ -41,7 +41,7 @@ class Add extends StatelessWidget {
                                   onPressed: () {
                                     Get.back();
                                   },
-                                  child: Obx(() => Text(date.value)),
+                                  child: const Text("Close"),
                                 )
                               ],
                             ),
@@ -49,10 +49,10 @@ class Add extends StatelessWidget {
                         ),
                       );
                     },
-                    child: const Row(
+                    child: Row(
                       children: [
-                        Icon(Icons.calendar_today),
-                        Text("Choose Date")
+                        const Icon(Icons.calendar_today),
+                        Obx(() => Text(date.value))
                       ],
                     ),
                   )
