@@ -6,6 +6,7 @@ class Add extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    RxString date = "Choose Date".obs;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -23,34 +24,30 @@ class Add extends StatelessWidget {
                   TextButton(
                     onPressed: () {
                       showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: const Text("Select Date"),
-                              content: SingleChildScrollView(
-                                child: CalendarDatePicker(
+                        context: context,
+                        builder: (BuildContext context) => Dialog.fullscreen(
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                CalendarDatePicker(
                                     initialDate: DateTime(2024),
                                     firstDate: DateTime(1900),
                                     lastDate: DateTime(3000),
-                                    onDateChanged: (DateTime d) {}),
-                              ),
-                              actions: [
+                                    onDateChanged: (DateTime d) {
+                                      date.value = d.toString();
+                                      Get.back();
+                                    }),
                                 TextButton(
                                   onPressed: () {
-                                    Navigator.of(context).pop();
+                                    Get.back();
                                   },
-                                  child: const Text('Cancel'),
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    // Handle date selection
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: const Text('OK'),
-                                ),
+                                  child: Obx(() => Text(date.value)),
+                                )
                               ],
-                            );
-                          });
+                            ),
+                          ),
+                        ),
+                      );
                     },
                     child: const Row(
                       children: [
