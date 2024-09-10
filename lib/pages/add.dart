@@ -6,6 +6,7 @@ class Add extends StatelessWidget {
   final RxString time = "Choose Time".obs;
   final RxString date = "Choose Date".obs;
   final RxString paymentCategory = "Choose Payment Category".obs;
+  final RxString unit = "Choose Currency".obs;
 
   Add({super.key});
 
@@ -75,18 +76,35 @@ class Add extends StatelessWidget {
               const TextField(
                 decoration: InputDecoration(labelText: "Expense Name"),
               ),
-              const TextField(
-                decoration: InputDecoration(labelText: "Amount"),
+              Row(
+                children: [
+                  const Expanded(
+                    flex: 7,
+                    child: TextField(
+                        decoration: InputDecoration(labelText: "Amount")),
+                  ),
+                  Expanded(
+                    flex: 3,
+                    child: TextButton(
+                      onPressed: () {
+                        _showBottomSheetToChooseCurrency(context);
+                      },
+                      style: TextButton.styleFrom(
+                          shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.zero)),
+                      child: Obx(() => Text(unit.value)),
+                    ),
+                  )
+                ],
               ),
               TextButton(
                 onPressed: () {
-                  _showBottomSheet(context);
+                  _showBottomSheetToChoosePaymentMethod(context);
                 },
                 style: TextButton.styleFrom(
-                  minimumSize: const Size(double.infinity, 50),
-                  shape: const ContinuousRectangleBorder(
-                      side: BorderSide(color: Color.fromARGB(0, 0, 0, 0))),
-                ),
+                    minimumSize: const Size(double.infinity, 50),
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.zero)),
                 child: Obx(() => Text(paymentCategory.value)),
               ),
               const SizedBox(width: 10, height: 10),
@@ -112,12 +130,35 @@ class Add extends StatelessWidget {
     time.value = formatTimeOfDay(tod as TimeOfDay);
   }
 
-  void _showBottomSheet(BuildContext context) {
+  void _showBottomSheetToChooseCurrency(BuildContext context) {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext builder) {
           return SizedBox(
-            height: 400,
+            height: 200,
+            width: double.infinity,
+            child: ListView(
+              shrinkWrap: true,
+              children: <Widget>[
+                const ListTile(
+                  trailing: Text("Currency"),
+                ),
+                ListTile(
+                  trailing: const Icon(Icons.abc),
+                  onTap: () {},
+                )
+              ],
+            ),
+          );
+        });
+  }
+
+  void _showBottomSheetToChoosePaymentMethod(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext builder) {
+          return SizedBox(
+            height: 200,
             width: double.infinity,
             child: ListView(
               shrinkWrap: true,
