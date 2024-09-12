@@ -23,9 +23,13 @@ class DB {
     await db.execute('''
       CREATE TABLE $_tablename (
         ID INTEGER PRIMARY KEY AUTOINCREMENT,
-        TITLE TEXT,
-        CATEGORY TEXT,
-        CREATED_AT TEXT
+        name TEXT,
+        amount TEXT,
+        date TEXT,
+        time TEXT,
+        currency TEXT,
+        category TEXT,
+        created_at TEXT
       )
     ''');
   }

@@ -2,7 +2,7 @@
 import 'package:intl/intl.dart';
 
 class Expense {
-  int id;
+  int? id;
   String name;
   double amount;
   String currency;
@@ -12,7 +12,7 @@ class Expense {
   DateTime createdAt;
 
   Expense({
-    required this.id,
+    this.id,
     required this.name,
     required this.amount,
     required this.currency,
@@ -22,11 +22,10 @@ class Expense {
     required this.createdAt,
   });
 
-  Map<String, Object> toMap() {
+  Map<String, dynamic> toMap() {
     return {
-      "id": id,
       "name": name,
-      "amount": amount,
+      "amount": amount.toString(),
       "currency": currency,
       "paymentMethod": paymentMethod,
       "date": date,
@@ -35,16 +34,16 @@ class Expense {
     };
   }
 
-  Expense fromMap(Map<String, Object> data) {
+  Expense fromMap(Map<String, dynamic> data) {
     return Expense(
-      id: data["id"] as int,
-      name: data["name"] as String,
-      amount: data["amount"] as double,
-      currency: data["currency"] as String,
-      paymentMethod: data["paymentMethod"] as String,
-      date: data["date"] as String,
-      time: data["time"] as String,
-      createdAt: DateFormat("yyyy-MM-dd").parse(data["created_at"] as String),
+      id: data["id"],
+      name: data["name"],
+      amount: data["amount"],
+      currency: data["currency"],
+      paymentMethod: data["paymentMethod"],
+      date: data["date"],
+      time: data["time"],
+      createdAt: DateFormat("yyyy-MM-dd").parse(data["created_at"]),
     );
   }
 }

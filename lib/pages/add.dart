@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:myapp/db/expenses_db.dart';
+import 'package:myapp/models/expense.dart';
 
 class Add extends StatelessWidget {
   final RxString time = "Choose Time".obs;
   final RxString date = "Choose Date".obs;
   final RxString paymentCategory = "Choose Payment Category".obs;
-  final RxString unit = "Choose Currency".obs;
+  final RxString currency = "Choose Currency".obs;
+  final RxString amount = "".obs;
+  final RxString name = "".obs;
 
   Add({super.key});
 
@@ -35,7 +39,8 @@ class Add extends StatelessWidget {
                               child: Column(
                                 children: [
                                   CalendarDatePicker(
-                                      initialDate: DateTime(2024),
+                                      initialDate:
+                                          DateTime(DateTime.now().year),
                                       firstDate: DateTime(1900),
                                       lastDate: DateTime(3000),
                                       onDateChanged: (DateTime ddd) {
@@ -73,15 +78,22 @@ class Add extends StatelessWidget {
                       ))
                 ],
               ),
-              const TextField(
-                decoration: InputDecoration(labelText: "Expense Name"),
+              TextField(
+                decoration: const InputDecoration(labelText: "Name"),
+                onChanged: (text) {
+                  name.value = text;
+                },
               ),
               Row(
                 children: [
-                  const Expanded(
+                  Expanded(
                     flex: 7,
                     child: TextField(
-                        decoration: InputDecoration(labelText: "Amount")),
+                      decoration: const InputDecoration(labelText: "Amount"),
+                      onChanged: (text) {
+                        amount.value = text;
+                      },
+                    ),
                   ),
                   Expanded(
                     flex: 3,
@@ -92,7 +104,7 @@ class Add extends StatelessWidget {
                       style: TextButton.styleFrom(
                           shape: const RoundedRectangleBorder(
                               borderRadius: BorderRadius.zero)),
-                      child: Obx(() => Text(unit.value)),
+                      child: Obx(() => Text(currency.value)),
                     ),
                   )
                 ],
@@ -109,7 +121,20 @@ class Add extends StatelessWidget {
               ),
               const SizedBox(width: 10, height: 10),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Expense e = Expense(
+                      id: 1,
+                      name: name.value,
+                      amount: double.parse(amount.value),
+                      currency: currency.value,
+                      paymentMethod: paymentCategory.value,
+                      date: date.value,
+                      time: time.value,
+                      createdAt: DateTime.now());
+                  DB db = DB();
+                  db.insertOne(e);
+                  Get.toNamed("/home");
+                },
                 style: TextButton.styleFrom(
                   minimumSize: const Size(double.infinity, 50),
                   backgroundColor: Colors.orange,
@@ -144,8 +169,71 @@ class Add extends StatelessWidget {
                   trailing: Text("Currency"),
                 ),
                 ListTile(
-                  trailing: const Icon(Icons.abc),
-                  onTap: () {},
+                  trailing: const Icon(Icons.currency_exchange_rounded),
+                  leading: const Text("Dollar"),
+                  onTap: () {
+                    currency.value = "Dollar";
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  trailing:
+                      const Icon(IconData(0xe23b, fontFamily: 'MaterialIcons')),
+                  leading: const Text("Euro"),
+                  onTap: () {
+                    currency.value = "Euro";
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  trailing: const Icon(Icons.currency_franc),
+                  leading: const Text("Franc"),
+                  onTap: () {
+                    currency.value = "Franc";
+                  },
+                ),
+                ListTile(
+                  trailing: const Icon(Icons.currency_rupee),
+                  leading: const Text("Rupee"),
+                  onTap: () {
+                    currency.value = "Rupee";
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  trailing: const Icon(Icons.currency_ruble),
+                  leading: const Text("Ruble"),
+                  onTap: () {
+                    currency.value = "Ruble";
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  trailing: const Icon(
+                      IconData(0xf04e3, fontFamily: 'MaterialIcons')),
+                  leading: const Text("Yuan"),
+                  onTap: () {
+                    currency.value = "Yuan";
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  trailing: const Icon(
+                      IconData(0xf04df, fontFamily: 'MaterialIcons')),
+                  leading: const Text("Pound"),
+                  onTap: () {
+                    currency.value = "Pound";
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  trailing: const Icon(
+                      IconData(0xf04e2, fontFamily: 'MaterialIcons')),
+                  leading: const Text("Yen"),
+                  onTap: () {
+                    currency.value = "Yen";
+                    Navigator.pop(context);
+                  },
                 )
               ],
             ),

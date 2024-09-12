@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myapp/controllers/expenses_controller.dart';
+import 'package:myapp/db/expenses_db.dart';
 import 'package:myapp/widgets/drawer.dart';
 
 // Suggested code may be subject to a license. Learn more: ~LicenseLog:354612783.
@@ -21,6 +22,8 @@ class HomePage extends StatelessWidget {
         actions: <Widget>[
           IconButton(
               onPressed: () {
+                DB db = DB();
+                db.getNotes();
                 Get.snackbar("title", "hello world",
                     snackPosition: SnackPosition.BOTTOM);
               },

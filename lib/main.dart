@@ -5,8 +5,14 @@ import 'package:myapp/pages/add.dart';
 import 'package:myapp/pages/delete.dart';
 import 'package:myapp/pages/home.dart';
 import 'package:myapp/pages/preferences.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Ensure the database factory is initialized
+  databaseFactory = databaseFactoryFfiWeb;
   runApp(const MyApp());
 }
 

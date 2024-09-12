@@ -37,6 +37,7 @@ dependencies:
   calendar_slider: ^0.0.4
   intl: 
   path: ^1.9.0
+  sqflite_common_ffi_web:
 
 dev_dependencies:
   flutter_test:
