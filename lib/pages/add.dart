@@ -1,12 +1,18 @@
+import 'package:myapp/db/expenses_db.dart';
+import 'package:uuid/uuid.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:myapp/models/expense.dart';
 
 class Add extends StatelessWidget {
   final RxString time = "Choose Time".obs;
   final RxString date = "Choose Date".obs;
-  final RxString paymentCategory = "Choose Payment Category".obs;
+  final RxString paymentMethod = "Choose Payment Category".obs;
   final RxString unit = "Choose Currency".obs;
+  final RxString name = "".obs;
+  final RxString amount = "".obs;
 
   Add({super.key});
 
@@ -73,15 +79,23 @@ class Add extends StatelessWidget {
                       ))
                 ],
               ),
-              const TextField(
-                decoration: InputDecoration(labelText: "Expense Name"),
-              ),
+              TextField(
+                  onChanged: (text) {
+                    name.value = text;
+                  },
+                  decoration: const InputDecoration(labelText: "Expense Name")),
               Row(
                 children: [
-                  const Expanded(
+                  Expanded(
                     flex: 7,
                     child: TextField(
-                        decoration: InputDecoration(labelText: "Amount")),
+                        onChanged: (value) => amount.value = value,
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.allow(RegExp(r'[0-9.]*'))
+                        ],
+                        keyboardType: const TextInputType.numberWithOptions(
+                            decimal: true),
+                        decoration: const InputDecoration(labelText: "Amount")),
                   ),
                   Expanded(
                     flex: 3,
@@ -105,11 +119,33 @@ class Add extends StatelessWidget {
                     minimumSize: const Size(double.infinity, 50),
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.zero)),
-                child: Obx(() => Text(paymentCategory.value)),
+                child: Obx(() => Text(paymentMethod.value)),
               ),
               const SizedBox(width: 10, height: 10),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  const Uuid uuid = Uuid();
+                  if (name.value.isEmpty ||
+                      amount.value.isEmpty ||
+                      paymentMethod.value.isEmpty ||
+                      unit.value.isEmpty ||
+                      date.value.isEmpty ||
+                      time.value.isEmpty) {
+                    Get.snackbar("Error", "Please fill all the fields");
+                    return;
+                  }
+                  Expense e = Expense(
+                      id: uuid.v4().toString(),
+                      amount: double.parse(amount.value),
+                      paymentMethod: paymentMethod.value,
+                      createdAt: DateTime.now(),
+                      currency: unit.value,
+                      date: date.value,
+                      time: time.value,
+                      name: name.value);
+                  DB db = DB();
+                  db.insertOne(e);
+                },
                 style: TextButton.styleFrom(
                   minimumSize: const Size(double.infinity, 50),
                   backgroundColor: Colors.orange,
@@ -144,9 +180,37 @@ class Add extends StatelessWidget {
                   trailing: Text("Currency"),
                 ),
                 ListTile(
-                  trailing: const Icon(Icons.abc),
-                  onTap: () {},
-                )
+                  trailing: const Icon(Icons.euro),
+                  leading: const Text("Euro"),
+                  onTap: () {
+                    unit.value = "EURO";
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  trailing: const Icon(Icons.currency_exchange),
+                  leading: const Text("USD"),
+                  onTap: () {
+                    unit.value = "USD";
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  trailing: const Icon(Icons.currency_yen),
+                  leading: const Text("YEN"),
+                  onTap: () {
+                    unit.value = "YEN";
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  trailing: const Icon(Icons.currency_franc),
+                  leading: const Text("FRANC"),
+                  onTap: () {
+                    unit.value = "FRANC";
+                    Navigator.pop(context);
+                  },
+                ),
               ],
             ),
           );
@@ -170,7 +234,7 @@ class Add extends StatelessWidget {
                   leading: const Icon(Icons.money),
                   title: const Text("Cash"),
                   onTap: () {
-                    paymentCategory.value = "Cash";
+                    paymentMethod.value = "Cash";
                     Navigator.pop(context);
                   },
                 ),
@@ -178,7 +242,7 @@ class Add extends StatelessWidget {
                   leading: const Icon(Icons.credit_card_outlined),
                   title: const Text("Card"),
                   onTap: () {
-                    paymentCategory.value = "Card";
+                    paymentMethod.value = "Card";
                     Navigator.pop(context);
                   },
                 )

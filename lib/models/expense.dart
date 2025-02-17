@@ -2,7 +2,7 @@
 import 'package:intl/intl.dart';
 
 class Expense {
-  int id;
+  String id;
   String name;
   double amount;
   String currency;
@@ -37,7 +37,7 @@ class Expense {
 
   Expense fromMap(Map<String, Object> data) {
     return Expense(
-      id: data["id"] as int,
+      id: data["id"] as String,
       name: data["name"] as String,
       amount: data["amount"] as double,
       currency: data["currency"] as String,

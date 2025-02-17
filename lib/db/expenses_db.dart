@@ -22,7 +22,7 @@ class DB {
   static void _onCreate(Database db, int version) async {
     await db.execute('''
       CREATE TABLE $_tablename (
-        ID INTEGER PRIMARY KEY AUTOINCREMENT,
+        ID TEXT,
         TITLE TEXT,
         CATEGORY TEXT,
         CREATED_AT TEXT

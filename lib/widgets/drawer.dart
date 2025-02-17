@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:myapp/controllers/expenses_controller.dart';
 
 class DrawerWidget extends StatelessWidget {
   const DrawerWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final ExpensesController c = Get.find();
     return Drawer(
       backgroundColor: Colors.white,
       child: ListView(
