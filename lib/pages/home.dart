@@ -21,7 +21,8 @@ class HomePage extends StatelessWidget {
         actions: <Widget>[
           IconButton(
               onPressed: () async {
-                Get.snackbar("title", "hello world",
+                DB db = DB();
+                Get.snackbar("title", await db.getNotes(),
                     snackPosition: SnackPosition.BOTTOM);
               },
               icon: const Icon(Icons.search))
@@ -29,10 +30,7 @@ class HomePage extends StatelessWidget {
       ),
       body: Center(
         child: Obx(
-          () => Text(
-            "${c.count}",
-            style: const TextStyle(fontSize: 50.4),
-          ),
+          () => Text("${c.count}", style: const TextStyle(fontSize: 50.4)),
         ),
       ),
     );

@@ -36,9 +36,10 @@ class DB {
     return result;
   }
 
-  Future<void> getNotes() async {
+  Future<String> getNotes() async {
     final db = await database;
     final results = await db.query("SELECT * FROM $_tablename");
     debugPrint(results.toString());
+    return results.toString();
   }
 }
