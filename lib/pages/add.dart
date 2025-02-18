@@ -143,6 +143,7 @@ class Add extends StatelessWidget {
                       date: date.value,
                       time: time.value,
                       name: name.value);
+                  Navigator.pop(context);
                   DB db = DB();
                   db.insertOne(e);
                 },

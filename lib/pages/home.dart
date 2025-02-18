@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myapp/controllers/expenses_controller.dart';
 import 'package:myapp/widgets/drawer.dart';
+import 'package:myapp/db/expenses_db.dart';
 
-// Suggested code may be subject to a license. Learn more: ~LicenseLog:354612783.
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
@@ -20,7 +20,7 @@ class HomePage extends StatelessWidget {
         title: const Text("Home"),
         actions: <Widget>[
           IconButton(
-              onPressed: () {
+              onPressed: () async {
                 Get.snackbar("title", "hello world",
                     snackPosition: SnackPosition.BOTTOM);
               },
