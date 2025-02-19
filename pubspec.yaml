@@ -37,9 +37,14 @@ dependencies:
   calendar_slider: ^0.0.4
   intl: 
   path: ^1.9.0
+<<<<<<< Updated upstream
   uuid: ^4.5.1
   sqflite_common_ffi: any
   sqflite_common_ffi_web: any
+=======
+  sqflite_common_ffi_web:
+  sqflite_common_ffi:
+>>>>>>> Stashed changes
 
 dev_dependencies:
   flutter_test:

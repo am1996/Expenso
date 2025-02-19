@@ -10,6 +10,12 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 void main() {
   sqfliteFfiInit();
   databaseFactory = databaseFactoryFfi;
+<<<<<<< Updated upstream
+=======
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Ensure the database factory is initialized
+>>>>>>> Stashed changes
   runApp(const MyApp());
 }
 

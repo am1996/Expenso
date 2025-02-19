@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/models/expense.dart';
+<<<<<<< Updated upstream
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' as path;
 import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+=======
+import 'package:path/path.dart' as p;
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+>>>>>>> Stashed changes
 
 class DB {
   static const _databaseName = 'expenses.db';
@@ -20,7 +25,11 @@ class DB {
     }
     return _database ??
         openDatabase(
+<<<<<<< Updated upstream
           p,
+=======
+          p.join(await getDatabasesPath(), _databaseName),
+>>>>>>> Stashed changes
           version: _databaseVersion,
           onCreate: _onCreate,
         );
@@ -43,10 +52,18 @@ class DB {
     return result;
   }
 
+<<<<<<< Updated upstream
   Future<String> getNotes() async {
+=======
+  Future<dynamic> getNotes() async {
+>>>>>>> Stashed changes
     final db = await database;
     final results = await db.query("SELECT * FROM $_tablename");
     debugPrint(results.toString());
+<<<<<<< Updated upstream
     return results.toString();
+=======
+    return results;
+>>>>>>> Stashed changes
   }
 }
