@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:myapp/models/expense.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' as path;
+import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class DB {
   static const _databaseName = 'expenses.db';
@@ -11,9 +13,14 @@ class DB {
   static Future<Database>? _database;
 
   static Future<Database> get database async {
+    String p = path.join(await getDatabasesPath(), _databaseName);
+    if (kIsWeb) {
+      databaseFactory = databaseFactoryFfiWeb;
+      p = 'db_web.db';
+    }
     return _database ??
         openDatabase(
-          path.join(await getDatabasesPath(), _databaseName),
+          p,
           version: _databaseVersion,
           onCreate: _onCreate,
         );

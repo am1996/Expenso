@@ -5,8 +5,11 @@ import 'package:myapp/pages/add.dart';
 import 'package:myapp/pages/delete.dart';
 import 'package:myapp/pages/home.dart';
 import 'package:myapp/pages/preferences.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 void main() {
+  sqfliteFfiInit();
+  databaseFactory = databaseFactoryFfi;
   runApp(const MyApp());
 }
 

@@ -38,6 +38,8 @@ dependencies:
   intl: 
   path: ^1.9.0
   uuid: ^4.5.1
+  sqflite_common_ffi: any
+  sqflite_common_ffi_web: any
 
 dev_dependencies:
   flutter_test:
