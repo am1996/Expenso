@@ -1,21 +1,13 @@
+import 'package:expense/pages/add.dart';
+import 'package:expense/pages/delete.dart';
+import 'package:expense/pages/home.dart';
+import 'package:expense/pages/preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:myapp/controllers/expenses_controller.dart';
-import 'package:myapp/pages/add.dart';
-import 'package:myapp/pages/delete.dart';
-import 'package:myapp/pages/home.dart';
-import 'package:myapp/pages/preferences.dart';
-import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+
+import 'controllers/expenses_controller.dart';
 
 void main() {
-  sqfliteFfiInit();
-  databaseFactory = databaseFactoryFfi;
-<<<<<<< Updated upstream
-=======
-  WidgetsFlutterBinding.ensureInitialized();
-
-  // Ensure the database factory is initialized
->>>>>>> Stashed changes
   runApp(const MyApp());
 }
 
@@ -45,7 +37,7 @@ class MyApp extends StatelessWidget {
               page: () => const Preferences(),
             ),
             GetPage(
-              name: "/deleterestore",
+              name: "/deleteRestore",
               page: () => const Delete(),
             ),
             GetPage(name: "/add", page: () => Add())

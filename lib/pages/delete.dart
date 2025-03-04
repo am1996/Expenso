@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/widgets/drawer.dart';
+
+import '../widgets/drawer.dart';
 
 class Delete extends StatelessWidget {
   const Delete({super.key});

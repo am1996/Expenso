@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:myapp/controllers/expenses_controller.dart';
-import 'package:myapp/widgets/drawer.dart';
-import 'package:myapp/db/expenses_db.dart';
+
+import '../controllers/expenses_controller.dart';
+import '../widgets/drawer.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -21,9 +21,6 @@ class HomePage extends StatelessWidget {
         actions: <Widget>[
           IconButton(
               onPressed: () async {
-                DB db = DB();
-                Get.snackbar("title", await db.getNotes(),
-                    snackPosition: SnackPosition.BOTTOM);
               },
               icon: const Icon(Icons.search))
         ],

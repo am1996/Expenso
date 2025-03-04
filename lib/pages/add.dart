@@ -1,10 +1,12 @@
-import 'package:myapp/db/expenses_db.dart';
+import 'dart:developer';
+
+import 'package:flutter/foundation.dart';
 import 'package:uuid/uuid.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:myapp/models/expense.dart';
+import '../models/expense.dart';
 
 class Add extends StatelessWidget {
   final RxString time = "Choose Time".obs;
@@ -143,9 +145,8 @@ class Add extends StatelessWidget {
                       date: date.value,
                       time: time.value,
                       name: name.value);
+                    log(e.toString());
                   Navigator.pop(context);
-                  DB db = DB();
-                  db.insertOne(e);
                 },
                 style: TextButton.styleFrom(
                   minimumSize: const Size(double.infinity, 50),
