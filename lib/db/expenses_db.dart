@@ -1,47 +1,85 @@
-import 'package:flutter/material.dart';
+import 'dart:developer';
 import 'package:path/path.dart' as path;
+import 'package:path/path.dart';
 import "package:sqflite/sqflite.dart";
-
 import '../models/expense.dart';
 
 class DB {
   static const _databaseName = 'expenses.db';
   static const _databaseVersion = 1;
   static const _tableName = "expenses";
+  static Database? _database;
 
-  static Future<Database>? _database;
-
+  // Get the database instance (singleton)
   static Future<Database> get database async {
-    String p = path.join(await getDatabasesPath(), _databaseName);
-    return _database ??
-        openDatabase(
-          p,
-          version: _databaseVersion,
-          onCreate: _onCreate,
-        );
+    if (_database != null) {
+      return _database!; // Return the existing database instance if already initialized
+    } else {
+      _database = await _initDatabase();
+      return _database!;
+    }
   }
 
-  static void _onCreate(Database db, int version) async {
+  // Initialize the database
+  static Future<Database> _initDatabase() async {
+    // Get the database file path
+    String path = join(await getDatabasesPath(), _databaseName);
+
+    // Open the database, create if it doesn't exist
+    return await openDatabase(
+      path,
+      version: _databaseVersion,
+      onCreate: _onCreate, // Define the table creation logic here
+    );
+  }
+
+  // Define the table creation logic
+  static Future<void> _onCreate(Database db, int version) async {
+    // Create the 'expenses' table (or 'transactions' based on your app's design)
     await db.execute('''
-      CREATE TABLE $_tableName (
-        ID TEXT,
-        TITLE TEXT,
-        CATEGORY TEXT,
-        CREATED_AT TEXT
+      CREATE TABLE expenses (
+        id TEXT,
+        name TEXT,
+        amount REAL,
+        currency TEXT,
+        paymentMethod TEXT,
+        date TEXT,
+        time TEXT,
+        createdAt TEXT
       )
     ''');
+    log("Table 'expenses' created successfully!");
   }
 
-  Future<int> insertOne(Expense e) async {
-    final db = await database;
-    final result = db.insert(_tableName, e.toMap());
-    return result;
+  Future<void> getDBPath() async {
+    String p = path.join(await getDatabasesPath(), _databaseName);
+    log(p);
   }
 
-  Future<String> getNotes() async {
+  void dropTable() async {
     final db = await database;
-    final results = await db.query("SELECT * FROM $_tableName");
-    debugPrint(results.toString());
-    return results.toString();
+    await db.execute("DROP TABLE $_tableName");
+  }
+  static Future<int> deleteExpense(Expense e) async{
+    final db = await database;
+    return await db.delete(_tableName,where: 'id = ?',whereArgs: [e.id]);
+  }
+  static Future<int> insertExpense(Expense e) async {
+    final db = await database;
+    return await db.insert(
+      _tableName,
+      e.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace, // Replace if exists
+    );
+  }
+
+  // Get all transactions from the database
+  static Future<List<Expense>> getExpenses() async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db.query(_tableName);
+
+    return List.generate(maps.length, (i) {
+      return Expense.fromMap(maps[i]);
+    });
   }
 }

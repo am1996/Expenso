@@ -1,6 +1,5 @@
 import 'dart:developer';
-
-import 'package:flutter/foundation.dart';
+import 'package:expense/controllers/expenses_controller.dart';
 import 'package:uuid/uuid.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,8 +10,8 @@ import '../models/expense.dart';
 class Add extends StatelessWidget {
   final RxString time = "Choose Time".obs;
   final RxString date = "Choose Date".obs;
-  final RxString paymentMethod = "Choose Payment Category".obs;
-  final RxString unit = "Choose Currency".obs;
+  final RxString paymentMethod = "Cash".obs;
+  final RxString unit = "Dollar".obs;
   final RxString name = "".obs;
   final RxString amount = "".obs;
 
@@ -20,6 +19,7 @@ class Add extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ExpensesController c = Get.find();
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -145,7 +145,8 @@ class Add extends StatelessWidget {
                       date: date.value,
                       time: time.value,
                       name: name.value);
-                    log(e.toString());
+                    log(e.toMap().toString());
+                    c.addExpense(e);
                   Navigator.pop(context);
                 },
                 style: TextButton.styleFrom(

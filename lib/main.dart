@@ -1,5 +1,6 @@
 import 'package:expense/pages/add.dart';
 import 'package:expense/pages/delete.dart';
+import 'package:expense/pages/details.dart';
 import 'package:expense/pages/home.dart';
 import 'package:expense/pages/preferences.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,8 @@ import 'package:get/get.dart';
 import 'controllers/expenses_controller.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  Get.put(ExpensesController());
   runApp(const MyApp());
 }
 
@@ -32,6 +35,7 @@ class MyApp extends StatelessWidget {
           name: "/home",
           page: () => const HomePage(),
           children: [
+            GetPage(name: "/details", page: () => const Details()),
             GetPage(
               name: "/preferences",
               page: () => const Preferences(),

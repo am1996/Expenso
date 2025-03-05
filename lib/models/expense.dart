@@ -21,8 +21,19 @@ class Expense {
     required this.time,
     required this.createdAt,
   });
-
-  Map<String, Object> toMap() {
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'amount': amount,
+      'currency': currency,
+      'paymentMethod': paymentMethod,
+      'date': date,
+      'time': time,
+      'createdAt': createdAt.toString(),
+    };
+  }
+  Map<String, dynamic> toMap() {
     return {
       "id": id,
       "name": name,
@@ -31,11 +42,10 @@ class Expense {
       "paymentMethod": paymentMethod,
       "date": date,
       "time": time,
-      "created_at": createdAt.toString(),
+      "createdAt": createdAt.toString(),
     };
   }
-
-  Expense fromMap(Map<String, Object> data) {
+  factory Expense.fromMap(Map<String, dynamic> data) {
     return Expense(
       id: data["id"] as String,
       name: data["name"] as String,
@@ -44,7 +54,7 @@ class Expense {
       paymentMethod: data["paymentMethod"] as String,
       date: data["date"] as String,
       time: data["time"] as String,
-      createdAt: DateFormat("yyyy-MM-dd").parse(data["created_at"] as String),
+      createdAt: DateFormat("yyyy-MM-dd").parse(data["createdAt"] as String),
     );
   }
 }
