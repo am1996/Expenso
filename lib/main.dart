@@ -35,7 +35,10 @@ class MyApp extends StatelessWidget {
           name: "/home",
           page: () => const HomePage(),
           children: [
-            GetPage(name: "/details", page: () => const Details()),
+            GetPage(
+                name: "/details",
+                page: () => const Details()
+            ),
             GetPage(
               name: "/preferences",
               page: () => const Preferences(),

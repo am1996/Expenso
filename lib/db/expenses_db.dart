@@ -50,7 +50,13 @@ class DB {
     ''');
     log("Table 'expenses' created successfully!");
   }
-
+  static Future<List<Expense>> searchDB(String query) async{
+    final db = await database;
+    final maps =  await db.query('expenses',where:"name LIKE ?",whereArgs: ['%$query%'] );
+    return List.generate(maps.length, (i) {
+      return Expense.fromMap(maps[i]);
+    });
+  }
   Future<void> getDBPath() async {
     String p = path.join(await getDatabasesPath(), _databaseName);
     log(p);

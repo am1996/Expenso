@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:expense/controllers/expenses_controller.dart';
 import 'package:expense/db/expenses_db.dart';
 import 'package:expense/models/expense.dart';
@@ -13,6 +12,9 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController searchController = TextEditingController();
+    Rx<String> text = "".obs;
+    Rx<bool> isSearching = false.obs;
     return Scaffold(
       drawer: DrawerWidget(key: key),
       floatingActionButton: FloatingActionButton(
@@ -20,14 +22,33 @@ class HomePage extends StatelessWidget {
         onPressed: () => Get.toNamed("/home/add"),
       ),
       appBar: AppBar(
-        title: const Text("Home"),
+        title: Obx(() => isSearching.isTrue ? TextField(
+            controller: searchController,
+            autofocus: true,
+            onSubmitted: (String a){
+              final query = searchController.text.toString();
+              Get.toNamed("/home/search",arguments: {
+                "query":query
+              });
+            },
+            decoration: const InputDecoration(
+              hintText: "Search...",
+              border: InputBorder.none,
+            ),
+        ) : const Text("Home")),
         actions: <Widget>[
+          Obx(() => isSearching.isTrue ?
           IconButton(
               onPressed: () async {
-                List<Expense> e = await DB.getExpenses();
-                log(jsonEncode(e.map((e)=> e.toJson()).toList()));
+                isSearching.value = false;
               },
-              icon: const Icon(Icons.search))
+              icon: const Icon(Icons.close))
+              :
+          IconButton(
+              onPressed: () async {
+                isSearching.value = true;
+              },
+              icon: const Icon(Icons.search)))
         ],
       ),
       body: const FutureList(),
@@ -56,7 +77,7 @@ class FutureList extends StatelessWidget {
         }
         return ListView.builder(itemCount: c.expenses.length,itemBuilder: (context, index) {
           return ListTile(title: Text(c.expenses[index].name),onTap: (){
-            Get.toNamed("/details",arguments: {
+            Get.toNamed("/home/details",arguments: {
               "e": c.expenses[index]
             });
           },trailing: IconButton(onPressed: (){
