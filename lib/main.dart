@@ -5,7 +5,6 @@ import 'package:expense/pages/home.dart';
 import 'package:expense/pages/preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import 'controllers/expenses_controller.dart';
 
 void main() {

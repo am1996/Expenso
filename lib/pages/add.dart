@@ -145,7 +145,6 @@ class Add extends StatelessWidget {
                       date: date.value,
                       time: time.value,
                       name: name.value);
-                    log(e.toMap().toString());
                     c.addExpense(e);
                   Navigator.pop(context);
                 },

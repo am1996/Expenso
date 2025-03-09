@@ -48,7 +48,6 @@ class DB {
         createdAt TEXT
       )
     ''');
-    log("Table 'expenses' created successfully!");
   }
   static Future<List<Expense>> searchDB(String query) async{
     final db = await database;
@@ -59,7 +58,6 @@ class DB {
   }
   Future<void> getDBPath() async {
     String p = path.join(await getDatabasesPath(), _databaseName);
-    log(p);
   }
 
   void dropTable() async {

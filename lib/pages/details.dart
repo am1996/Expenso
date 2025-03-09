@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:expense/controllers/expenses_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -23,7 +25,7 @@ class Details extends StatelessWidget {
               ),),
               Padding(
                 padding: const EdgeInsets.all(30),
-                child: Table(children: [
+                child: data != null ? Table(children: [
                   TableRow(children: [
                     const Text("ID",style: TextStyle(fontWeight: FontWeight.bold),),
                     Text(data["e"].id),
@@ -51,7 +53,7 @@ class Details extends StatelessWidget {
                       Get.back();
                     }, icon: const Icon(Icons.delete))
                   ])
-                ],),
+                ],) : const Text("No data or details"),
               ),]
         )
     );
