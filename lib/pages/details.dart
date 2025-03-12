@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:expense/controllers/expenses_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,7 +12,7 @@ class Details extends StatelessWidget {
         appBar: AppBar(
           leading: IconButton(
             icon: const Icon(Icons.keyboard_arrow_left_sharp),
-            onPressed: () => Get.toNamed("/home"),
+            onPressed: () => Get.toNamed("/income"),
           ),
         ),
         body: Column(
@@ -47,12 +45,16 @@ class Details extends StatelessWidget {
                     Text("${data["e"].time}"),
                   ]),
                   TableRow(children: [
+                    const Text("Created At: ",style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text("${data["e"].createdAt}"),
+                  ]),
+                  TableRow(children: [
                     const Text(""),
                     IconButton(onPressed: (){
                       c.deleteExpense(data['e']);
                       Get.back();
                     }, icon: const Icon(Icons.delete))
-                  ])
+                  ]),
                 ],) : const Text("No data or details"),
               ),]
         )

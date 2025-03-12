@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:expense/controllers/expenses_controller.dart';
 import 'package:uuid/uuid.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +23,7 @@ class Add extends StatelessWidget {
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.keyboard_arrow_left_sharp),
-          onPressed: () => Get.toNamed("/home"),
+          onPressed: () => Get.toNamed("/income"),
         ),
       ),
       body: Container(
@@ -43,8 +42,8 @@ class Add extends StatelessWidget {
                               child: Column(
                                 children: [
                                   CalendarDatePicker(
-                                      initialDate: DateTime(2024),
-                                      firstDate: DateTime(1900),
+                                      initialDate: DateTime(DateTime.now().year),
+                                      firstDate: DateTime(1800),
                                       lastDate: DateTime(3000),
                                       onDateChanged: (DateTime ddd) {
                                         date.value = DateFormat("yyyy-MM-dd")
@@ -165,7 +164,9 @@ class Add extends StatelessWidget {
   Future<void> _showTime(BuildContext context) async {
     TimeOfDay? tod = await showTimePicker(
         context: context, initialTime: const TimeOfDay(hour: 12, minute: 00));
-    time.value = formatTimeOfDay(tod as TimeOfDay);
+    if(tod != null){
+      time.value = formatTimeOfDay(tod);
+    }
   }
 
   void _showBottomSheetToChooseCurrency(BuildContext context) {

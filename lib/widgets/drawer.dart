@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -24,26 +26,27 @@ class DrawerWidget extends StatelessWidget {
             textColor: Colors.black54,
           ),
           ListTile(
-            leading: const Icon(Icons.home),
-            title: const Text("Home"),
+            leading: const Icon(Icons.arrow_right_alt_sharp),
+            title: const Text("Income"),
             onTap: () {
-              Get.toNamed("/home");
+              if(Get.currentRoute != "/income"){
+                Get.toNamed("/income");
+              }else{
+                Get.back();
+              }
             },
           ),
           ListTile(
-            leading: const Icon(Icons.settings),
-            title: const Text('Preferences'),
-            onTap: () {
-              Get.toNamed("/home/preferences");
+            leading: const Icon(Icons.import_export),
+            title: const Text("Export Income"),
+            onTap: (){
+              if(Get.currentRoute != "/income/export") {
+                Get.toNamed("/income/export");
+              } else{
+                Get.back();
+              }
             },
           ),
-          ListTile(
-            leading: const Icon(Icons.delete),
-            title: const Text('Delete and Restore'),
-            onTap: () {
-              Get.toNamed("/home/deleterestore");
-            },
-          )
         ],
       ),
     );

@@ -1,0 +1,58 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import '../widgets/drawer.dart';
+
+class ExportIncome extends StatelessWidget {
+  const ExportIncome({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    Rx<String>? fromDate = "0000-00-00".obs;
+    Rx<String>? toDate = "0000-00-00".obs;
+    return Scaffold(
+      appBar: AppBar(
+        actions: <Widget>[
+          IconButton(
+              onPressed: () {
+                debugPrint("Done");
+              },
+              icon: const Icon(Icons.search))
+        ],
+      ),
+      drawer: DrawerWidget(key: key),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30),
+          child: Table(
+            children: [
+              TableRow(children: [
+                const Text("From Date: "),
+                ElevatedButton(onPressed: () async {
+                  DateTime? dateChosen = await showDatePicker(context: context,
+                      firstDate: DateTime(1900,01,01), lastDate: DateTime(3000,01,01));
+                  if(dateChosen != null){
+                    fromDate.value = "${dateChosen.year}-${dateChosen.month.toString().padLeft(2,'0')}-${dateChosen.day.toString().padLeft(2,'0')}";
+                  }
+                }, child: Obx(() => Text(fromDate.value)))
+              ],),
+              TableRow(children: [
+                const Text("To Date: "),
+                ElevatedButton(onPressed: () async {
+                  DateTime? dateChosen = await showDatePicker(context: context,
+                      firstDate: DateTime(1900,01,01), lastDate: DateTime(3000,01,01));
+                  if(dateChosen != null){
+                    toDate.value = "${dateChosen.year}-${dateChosen.month.toString().padLeft(2,'0')}-${dateChosen.day.toString().padLeft(2,'0')}";
+                  }
+                }, child: Obx(() => Text(toDate.value)))
+              ],),
+              TableRow(children: [
+                ElevatedButton(onPressed: (){}, child: const Text("Export To CSV")),
+                ElevatedButton(onPressed: (){}, child: const Text("Export To XML")),
+              ],),
+            ],
+          )
+        )
+      ),
+    );
+  }
+}

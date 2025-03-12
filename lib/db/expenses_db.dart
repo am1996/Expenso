@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:path/path.dart' as path;
 import 'package:path/path.dart';
 import "package:sqflite/sqflite.dart";
@@ -49,15 +48,16 @@ class DB {
       )
     ''');
   }
-  static Future<List<Expense>> searchDB(String query) async{
+  static Future<List<Expense>> searchDB(String searched,String query) async{
     final db = await database;
-    final maps =  await db.query('expenses',where:"name LIKE ?",whereArgs: ['%$query%'] );
+    final maps =  await db.query('expenses',where:"$searched LIKE ?",whereArgs: ['%$query%'] );
     return List.generate(maps.length, (i) {
       return Expense.fromMap(maps[i]);
     });
   }
-  Future<void> getDBPath() async {
+  Future<String> getDBPath() async {
     String p = path.join(await getDatabasesPath(), _databaseName);
+    return p;
   }
 
   void dropTable() async {

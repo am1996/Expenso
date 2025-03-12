@@ -1,8 +1,7 @@
 import 'package:expense/pages/add.dart';
-import 'package:expense/pages/delete.dart';
 import 'package:expense/pages/details.dart';
-import 'package:expense/pages/home.dart';
-import 'package:expense/pages/preferences.dart';
+import 'package:expense/pages/income.dart';
+import 'package:expense/pages/export_income.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'controllers/expenses_controller.dart';
@@ -26,27 +25,20 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
         useMaterial3: true,
       ),
-      initialRoute: "/home",
+      initialRoute: "/income",
       initialBinding:
           BindingsBuilder(() => Get.lazyPut(() => ExpensesController())),
       getPages: <GetPage>[
         GetPage(
-          name: "/home",
-          page: () => const HomePage(),
+          name: "/income",
+          page: () => const IncomePage(),
           children: [
             GetPage(
                 name: "/details",
                 page: () => const Details()
             ),
-            GetPage(
-              name: "/preferences",
-              page: () => const Preferences(),
-            ),
-            GetPage(
-              name: "/deleteRestore",
-              page: () => const Delete(),
-            ),
-            GetPage(name: "/add", page: () => Add())
+            GetPage(name: "/add", page: () => Add()),
+            GetPage(name: "/export", page: () => ExportIncome())
           ],
         ),
       ],
