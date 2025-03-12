@@ -204,6 +204,11 @@ class IncomePage extends StatelessWidget {
                 trailing: IconButton(
                   onPressed: () {
                     c.deleteExpense(c.expenses[index]);
+                    if(date.value == "00-00-0000") {
+                      c.fetchExpenses();
+                    } else {
+                      c.searchExpense("date", date.value);
+                    }
                   },
                   icon: const Icon(Icons.delete),
                 ),

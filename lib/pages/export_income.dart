@@ -4,11 +4,14 @@ import '../widgets/drawer.dart';
 
 class ExportIncome extends StatelessWidget {
   const ExportIncome({super.key});
+  // TODO(1): Implement Validation so that fromDate can't be higher than toDate
+  Future<void> exportCSV() async {
 
+  }
   @override
   Widget build(BuildContext context) {
-    Rx<String>? fromDate = "0000-00-00".obs;
-    Rx<String>? toDate = "0000-00-00".obs;
+    Rx<String>? fromDate = "00-00-0000".obs;
+    Rx<String>? toDate = "00-00-0000".obs;
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[
@@ -31,7 +34,7 @@ class ExportIncome extends StatelessWidget {
                   DateTime? dateChosen = await showDatePicker(context: context,
                       firstDate: DateTime(1900,01,01), lastDate: DateTime(3000,01,01));
                   if(dateChosen != null){
-                    fromDate.value = "${dateChosen.year}-${dateChosen.month.toString().padLeft(2,'0')}-${dateChosen.day.toString().padLeft(2,'0')}";
+                    fromDate.value = "${dateChosen.day.toString().padLeft(2,'0')}-${dateChosen.month.toString().padLeft(2,'0')}-${dateChosen.year}";
                   }
                 }, child: Obx(() => Text(fromDate.value)))
               ],),
@@ -41,7 +44,7 @@ class ExportIncome extends StatelessWidget {
                   DateTime? dateChosen = await showDatePicker(context: context,
                       firstDate: DateTime(1900,01,01), lastDate: DateTime(3000,01,01));
                   if(dateChosen != null){
-                    toDate.value = "${dateChosen.year}-${dateChosen.month.toString().padLeft(2,'0')}-${dateChosen.day.toString().padLeft(2,'0')}";
+                    toDate.value = "${dateChosen.day.toString().padLeft(2,'0')}-${dateChosen.month.toString().padLeft(2,'0')}-${dateChosen.year}";
                   }
                 }, child: Obx(() => Text(toDate.value)))
               ],),

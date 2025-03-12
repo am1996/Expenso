@@ -29,6 +29,5 @@ class ExpensesController extends GetxController {
   }
   Future<void> deleteExpense(Expense e) async{
     await DB.deleteExpense(e);
-    fetchExpenses();
   }
 }
