@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:path/path.dart' as path;
 import 'package:path/path.dart';
 import "package:sqflite/sqflite.dart";
@@ -54,6 +56,19 @@ class DB {
     return List.generate(maps.length, (i) {
       return Expense.fromMap(maps[i]);
     });
+  }
+  static Future<List<List>> findInDateRange(String fromDate, String toDate) async {
+    final db = await database;
+    List<Map<String, dynamic>> maps = await db.rawQuery(
+        "SELECT * FROM expenses WHERE date BETWEEN ? AND ?",
+        [fromDate, toDate]
+    );
+    List<List> data = <List>[];
+    data.add(["id","name","amount","currency","paymentMethod","date","time","createdAt"]);
+    for(var item in maps){
+      data.add(item.entries.map((d) => d.value).toList());
+    }
+    return data;
   }
   Future<String> getDBPath() async {
     String p = path.join(await getDatabasesPath(), _databaseName);

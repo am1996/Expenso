@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import '../widgets/drawer.dart';
 
-class IncomePage extends StatelessWidget {
-  const IncomePage({super.key});
+class ExpensesPage extends StatelessWidget {
+  const ExpensesPage({super.key});
   void modDay(Rx<String> date, String sign, int n) {
     DateTime d = DateFormat("dd-MM-yyyy").parse(date.value);
     if (sign == "-") {
@@ -56,7 +56,7 @@ class IncomePage extends StatelessWidget {
       drawer: DrawerWidget(key: key),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
-        onPressed: () => Get.toNamed("/income/add"),
+        onPressed: () => Get.toNamed("/expenses/add"),
       ),
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(100),
@@ -76,7 +76,7 @@ class IncomePage extends StatelessWidget {
                         border: InputBorder.none,
                       ),
                     )
-                  : const Text("Income")),
+                  : const Text("Expenses")),
               actions: <Widget>[
                 Obx(() => isSearching.isTrue
                     ? IconButton(
@@ -198,7 +198,7 @@ class IncomePage extends StatelessWidget {
               return ListTile(
                 title: Text(c.expenses[index].name),
                 onTap: () {
-                  Get.toNamed("/income/details",
+                  Get.toNamed("/expenses/details",
                       arguments: {"e": c.expenses[index]});
                 },
                 trailing: IconButton(

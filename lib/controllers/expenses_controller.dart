@@ -22,11 +22,16 @@ class ExpensesController extends GetxController {
     expenses.value = data;
     return data;
   }
+  Future<List<List>> findInDateRange(String fromDate, String toDate) async {
+    List<List> data = await DB.findInDateRange(fromDate, toDate);
+    return data;
+  }
   Future<void> addExpense(Expense expense) async {
     await DB.insertExpense(expense);
     DateTime ddd = DateTime.now();
     searchExpense("date", "${ddd.year}-${ddd.month.toString().padLeft(2,'0')}");
   }
+
   Future<void> deleteExpense(Expense e) async{
     await DB.deleteExpense(e);
   }

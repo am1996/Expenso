@@ -12,7 +12,7 @@ class Details extends StatelessWidget {
         appBar: AppBar(
           leading: IconButton(
             icon: const Icon(Icons.keyboard_arrow_left_sharp),
-            onPressed: () => Get.toNamed("/income"),
+            onPressed: () => Get.toNamed("/expenses"),
           ),
         ),
         body: Column(

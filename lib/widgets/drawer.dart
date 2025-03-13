@@ -27,10 +27,10 @@ class DrawerWidget extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.arrow_right_alt_sharp),
-            title: const Text("Income"),
+            title: const Text("Expenses"),
             onTap: () {
-              if(Get.currentRoute != "/income"){
-                Get.toNamed("/income");
+              if(Get.currentRoute != "/expenses"){
+                Get.toNamed("/expenses");
               }else{
                 Get.back();
               }
@@ -38,10 +38,10 @@ class DrawerWidget extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.import_export),
-            title: const Text("Export Income"),
+            title: const Text("Export Expenses"),
             onTap: (){
-              if(Get.currentRoute != "/income/export") {
-                Get.toNamed("/income/export");
+              if(Get.currentRoute != "/expenses/export") {
+                Get.toNamed("/expenses/export");
               } else{
                 Get.back();
               }
