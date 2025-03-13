@@ -6,10 +6,12 @@ import 'package:get/get.dart';
 import '../widgets/drawer.dart';
 import 'package:csv/csv.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:xml/xml.dart' as xml;
 
 class ExportExpenses extends StatelessWidget {
   const ExportExpenses({super.key});
   // TODO(1): Implement Validation so that fromDate can't be higher than toDate
+  // TODO(2): Enable user to enter filename for exportCSV, exportJSON
   Future<void> requestStoragePermission() async {
     // Check & request storage permission
     if (await Permission.storage.isDenied) {
@@ -25,10 +27,55 @@ class ExportExpenses extends StatelessWidget {
     }
 
   }
+  Future<void> exportXML(String fromDate, String toDate) async {
+    requestStoragePermission();
+    ExpensesController c = Get.find();
+    final builder = xml.XmlBuilder();
+    List<Map<String,dynamic>> maps= <Map<String,dynamic>>[];
+    if(fromDate =="0000-00-00" || toDate == "0000-00-00") {
+      for(var q in await c.fetchExpenses()){
+        maps.add(q.toMap());
+      }
+    }else{
+      maps = await c.findInDateRange(fromDate, toDate);
+    }
+    builder.processing("xml", 'version="1.0" encoding="UTF-8"');
+    builder.element("expenses",nest:(){
+      for(var item in maps) {
+        builder.element("expense", nest: () {
+          item.forEach((key, value) => builder.element(key, nest: value));
+        });
+      }
+    });
+
+    String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
+    if(selectedDirectory != null){
+      String filePath = '$selectedDirectory/fff.xml';
+      File file = File(filePath);
+      await file.writeAsString(builder.buildDocument().toXmlString());
+      Get.snackbar("XML Written Successfully", "Path $filePath");
+    }
+  }
   Future<void> exportCSV(String fromDate, String toDate) async {
     requestStoragePermission();
     ExpensesController c = Get.find();
-    List<List> data = await c.findInDateRange(fromDate, toDate);
+    List<List> data=<List>[];
+    data.add(["id","name","amount","currency","paymentMethod","date","time","createdAt"]);
+    List<Map<String,dynamic>> maps = <Map<String,dynamic>>[];
+    if(fromDate =="0000-00-00" || toDate == "0000-00-00") {
+      for(var q in await c.fetchExpenses()){
+        maps.add(q.toMap());
+      }
+      for(var item in maps){
+        data.add(item.entries.map((d) => d.value).toList());
+      }
+    }else{
+      final maps = await c.findInDateRange(fromDate, toDate);
+      for(var item in maps){
+        data.add(item.entries.map((d) => d.value).toList());
+      }
+    }
+
     var d = const ListToCsvConverter().convert(data);
     String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
     if(selectedDirectory != null){
@@ -76,7 +123,9 @@ class ExportExpenses extends StatelessWidget {
                 ElevatedButton(onPressed: (){
                   exportCSV(fromDate.value, toDate.value);
                 }, child: const Text("Export To CSV")),
-                ElevatedButton(onPressed: (){}, child: const Text("Export To XML")),
+                ElevatedButton(onPressed: (){
+                  exportXML(fromDate.value, toDate.value);
+                }, child: const Text("Export To XML")),
               ],),
             ],
           )

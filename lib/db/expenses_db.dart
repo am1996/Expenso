@@ -57,18 +57,13 @@ class DB {
       return Expense.fromMap(maps[i]);
     });
   }
-  static Future<List<List>> findInDateRange(String fromDate, String toDate) async {
+  static Future<List<Map<String, dynamic>>> findInDateRange(String fromDate, String toDate) async {
     final db = await database;
     List<Map<String, dynamic>> maps = await db.rawQuery(
         "SELECT * FROM expenses WHERE date BETWEEN ? AND ?",
         [fromDate, toDate]
     );
-    List<List> data = <List>[];
-    data.add(["id","name","amount","currency","paymentMethod","date","time","createdAt"]);
-    for(var item in maps){
-      data.add(item.entries.map((d) => d.value).toList());
-    }
-    return data;
+    return maps;
   }
   Future<String> getDBPath() async {
     String p = path.join(await getDatabasesPath(), _databaseName);

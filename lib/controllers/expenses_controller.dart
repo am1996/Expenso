@@ -22,8 +22,8 @@ class ExpensesController extends GetxController {
     expenses.value = data;
     return data;
   }
-  Future<List<List>> findInDateRange(String fromDate, String toDate) async {
-    List<List> data = await DB.findInDateRange(fromDate, toDate);
+  Future<List<Map<String,dynamic>>> findInDateRange(String fromDate, String toDate) async {
+    final data = await DB.findInDateRange(fromDate, toDate);
     return data;
   }
   Future<void> addExpense(Expense expense) async {
