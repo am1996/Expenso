@@ -8,7 +8,8 @@ import '../models/expense.dart';
 class DB {
   static const _databaseName = 'expenses.db';
   static const _databaseVersion = 1;
-  static const _tableName = "expenses";
+  static const _tableName1 = "expenses";
+  static const _tableName2 = "income";
   static Database? _database;
 
   // Get the database instance (singleton)
@@ -49,15 +50,25 @@ class DB {
         createdAt TEXT
       )
     ''');
+    await db.execute('''
+      CREATE TABLE income(
+        id TEXT,
+        type TEXT,
+        amount REAL,
+        currency TEXT,
+        date TEXT,
+        time TEXT,
+        createdAt TEXT
+    ''');
   }
-  static Future<List<Expense>> searchDB(String searched,String query) async{
+  static Future<List<Expense>> searchDBForExpenses(String searched,String query) async{
     final db = await database;
     final maps =  await db.query('expenses',where:"$searched LIKE ?",whereArgs: ['%$query%'] );
     return List.generate(maps.length, (i) {
       return Expense.fromMap(maps[i]);
     });
   }
-  static Future<List<Map<String, dynamic>>> findInDateRange(String fromDate, String toDate) async {
+  static Future<List<Map<String, dynamic>>> findExpensesInDateRange(String fromDate, String toDate) async {
     final db = await database;
     List<Map<String, dynamic>> maps = await db.rawQuery(
         "SELECT * FROM expenses WHERE date BETWEEN ? AND ?",
@@ -70,18 +81,18 @@ class DB {
     return p;
   }
 
-  void dropTable() async {
+  void dropExpensesTable() async {
     final db = await database;
-    await db.execute("DROP TABLE $_tableName");
+    await db.execute("DROP TABLE $_tableName1");
   }
   static Future<int> deleteExpense(Expense e) async{
     final db = await database;
-    return await db.delete(_tableName,where: 'id = ?',whereArgs: [e.id]);
+    return await db.delete(_tableName1,where: 'id = ?',whereArgs: [e.id]);
   }
   static Future<int> insertExpense(Expense e) async {
     final db = await database;
     return await db.insert(
-      _tableName,
+      _tableName1,
       e.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace, // Replace if exists
     );
@@ -90,7 +101,7 @@ class DB {
   // Get all transactions from the database
   static Future<List<Expense>> getExpenses() async {
     final db = await database;
-    final List<Map<String, dynamic>> maps = await db.query(_tableName);
+    final List<Map<String, dynamic>> maps = await db.query(_tableName1);
 
     return List.generate(maps.length, (i) {
       return Expense.fromMap(maps[i]);

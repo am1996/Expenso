@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import '../models/expense.dart';
+import '../../models/expense.dart';
 
 class Add extends StatelessWidget {
   final RxString time = "Choose Time".obs;
@@ -144,8 +144,13 @@ class Add extends StatelessWidget {
                       date: date.value,
                       time: time.value,
                       name: name.value);
-                    c.addExpense(e);
-                  Navigator.pop(context);
+                  c.addExpense(e);
+                  if(c.date.value == "00-00-0000") {
+                    c.fetchExpenses();
+                  } else {
+                    c.searchExpense("date", c.date.value);
+                  }
+                  Get.back();
                 },
                 style: TextButton.styleFrom(
                   minimumSize: const Size(double.infinity, 50),

@@ -1,7 +1,7 @@
-import 'package:expense/pages/add.dart';
-import 'package:expense/pages/details.dart';
-import 'package:expense/pages/expenses.dart';
-import 'package:expense/pages/export_expenses.dart';
+import 'package:expense/pages/expenses/add.dart';
+import 'package:expense/pages/expenses/details.dart';
+import 'package:expense/pages/expenses/expenses.dart';
+import 'package:expense/pages/expenses/export_expenses.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'controllers/expenses_controller.dart';

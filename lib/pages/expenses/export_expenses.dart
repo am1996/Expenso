@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:expense/controllers/expenses_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../widgets/drawer.dart';
+import '../../widgets/drawer.dart';
 import 'package:csv/csv.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:xml/xml.dart' as xml;
@@ -79,7 +79,7 @@ class ExportExpenses extends StatelessWidget {
     var d = const ListToCsvConverter().convert(data);
     String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
     if(selectedDirectory != null){
-      String filePath = '$selectedDirectory/fff.csv';
+      String filePath = '$selectedDirectory/put.csv';
       File file = File(filePath);
       await file.writeAsString(d);
       Get.snackbar("CSV Written Successfully", "Path $filePath");

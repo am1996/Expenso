@@ -2,7 +2,7 @@ import 'package:expense/controllers/expenses_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import '../widgets/drawer.dart';
+import '../../widgets/drawer.dart';
 
 class ExpensesPage extends StatelessWidget {
   const ExpensesPage({super.key});
@@ -49,8 +49,7 @@ class ExpensesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     ExpensesController c = Get.find();
     TextEditingController searchController = TextEditingController();
-    Rx<String> date = DateFormat('MM-yyyy').format(DateTime.now()).obs;
-    Rx<String> chosenFilter = "Month".obs;
+
     Rx<bool> isSearching = false.obs;
     return Scaffold(
       drawer: DrawerWidget(key: key),
@@ -99,44 +98,44 @@ class ExpensesPage extends StatelessWidget {
                 children: [
                   IconButton(
                       onPressed: () {
-                        if (chosenFilter.value == "Year") {
-                          modYear(date, "-", 1);
-                          c.searchExpense("date", date.value);
-                        } else if (chosenFilter.value == "Month") {
-                          modMonth(date, "-", 1);
+                        if (c.chosenFilter.value == "Year") {
+                          modYear(c.date, "-", 1);
+                          c.searchExpense("date", c.date.value);
+                        } else if (c.chosenFilter.value == "Month") {
+                          modMonth(c.date, "-", 1);
                           DateTime ddd =
-                              DateFormat("MM-yyyy").parse(date.value);
+                              DateFormat("MM-yyyy").parse(c.date.value);
                           c.searchExpense("date",
                               "${ddd.year}-${ddd.month.toString().padLeft(2, '0')}");
-                        } else if (chosenFilter.value == "Day") {
-                          modDay(date, "-", 1);
+                        } else if (c.chosenFilter.value == "Day") {
+                          modDay(c.date, "-", 1);
                           DateTime ddd =
-                              DateFormat("dd-MM-yyyy").parse(date.value);
+                              DateFormat("dd-MM-yyyy").parse(c.date.value);
                           c.searchExpense("date",
                               "${ddd.year}-${ddd.month.toString().padLeft(2, '0')}-${ddd.day.toString().padLeft(2, '0')}");
                         }
                       },
                       icon: const Icon(Icons.arrow_circle_left)),
                   const Spacer(),
-                  Obx(() => Text(date.value,
+                  Obx(() => Text(c.date.value,
                       style: const TextStyle(
                           fontSize: 17, fontWeight: FontWeight.bold))),
                   const Spacer(),
                   IconButton(
                       onPressed: () {
-                        if (chosenFilter.value == "Year") {
-                          modYear(date, "+", 1);
-                          c.searchExpense("date", date.value);
-                        } else if (chosenFilter.value == "Month") {
-                          modMonth(date, "+", 1);
+                        if (c.chosenFilter.value == "Year") {
+                          modYear(c.date, "+", 1);
+                          c.searchExpense("date", c.date.value);
+                        } else if (c.chosenFilter.value == "Month") {
+                          modMonth(c.date, "+", 1);
                           DateTime ddd =
-                              DateFormat("MM-yyyy").parse(date.value);
+                              DateFormat("MM-yyyy").parse(c.date.value);
                           c.searchExpense("date",
                               "${ddd.year}-${ddd.month.toString().padLeft(2, '0')}");
-                        } else if (chosenFilter.value == "Day") {
-                          modDay(date, "+", 1);
+                        } else if (c.chosenFilter.value == "Day") {
+                          modDay(c.date, "+", 1);
                           DateTime ddd =
-                              DateFormat("dd-MM-yyyy").parse(date.value);
+                              DateFormat("dd-MM-yyyy").parse(c.date.value);
                           c.searchExpense("date",
                               "${ddd.year}-${ddd.month.toString().padLeft(2, '0')}-${ddd.day.toString().padLeft(2, '0')}");
                         }
@@ -151,28 +150,28 @@ class ExpensesPage extends StatelessWidget {
                               value: "Month", child: Text("Month")),
                           DropdownMenuItem(value: "Year", child: Text("Year")),
                         ],
-                        value: chosenFilter.value,
+                        value: c.chosenFilter.value,
                         onChanged: (String? value) {
-                          chosenFilter.value = value ?? "Month";
-                          if (chosenFilter.value == "Month") {
+                          c.chosenFilter.value = value ?? "Month";
+                          if (c.chosenFilter.value == "Month") {
                             DateTime ddd = DateTime.now();
-                            date.value =
+                            c.date.value =
                                 DateFormat('MM-yyyy').format(ddd).toString();
                             c.searchExpense("date",
                                 "${ddd.year}-${ddd.month.toString().padLeft(2, '0')}");
-                          } else if (chosenFilter.value == "Year") {
-                            date.value = DateFormat('yyyy')
+                          } else if (c.chosenFilter.value == "Year") {
+                            c.date.value = DateFormat('yyyy')
                                 .format(DateTime.now())
                                 .toString();
-                            c.searchExpense("date", date.value);
-                          } else if (chosenFilter.value == "Day") {
+                            c.searchExpense("date", c.date.value);
+                          } else if (c.chosenFilter.value == "Day") {
                             DateTime ddd = DateTime.now();
-                            date.value =
+                            c.date.value =
                                 DateFormat('dd-MM-yyyy').format(ddd).toString();
                             c.searchExpense("date",
                                 "${ddd.year}-${ddd.month.toString().padLeft(2, '0')}-${ddd.day.toString().padLeft(2, '0')}");
                           } else {
-                            date.value = "00-00-0000";
+                            c.date.value = "00-00-0000";
                             c.fetchExpenses();
                           }
                         }),
@@ -204,10 +203,10 @@ class ExpensesPage extends StatelessWidget {
                 trailing: IconButton(
                   onPressed: () {
                     c.deleteExpense(c.expenses[index]);
-                    if(date.value == "00-00-0000") {
+                    if(c.date.value == "00-00-0000") {
                       c.fetchExpenses();
                     } else {
-                      c.searchExpense("date", date.value);
+                      c.searchExpense("date", c.date.value);
                     }
                   },
                   icon: const Icon(Icons.delete),

@@ -52,6 +52,7 @@ class Details extends StatelessWidget {
                     const Text(""),
                     IconButton(onPressed: (){
                       c.deleteExpense(data['e']);
+                      c.searchExpense("date", c.date.value);
                       Get.back();
                     }, icon: const Icon(Icons.delete))
                   ]),
